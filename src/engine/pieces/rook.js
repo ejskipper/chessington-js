@@ -7,7 +7,18 @@ export default class Rook extends Piece {
     }
 
     getAvailableMoves(board) {
-        return [Square.at(1, 0), Square.at(1, 1), Square.at(1, 3), Square.at(1, 4), Square.at(1, 5), Square.at(1, 6), Square.at(1, 7),
-            Square.at(0, 2), Square.at(2, 2), Square.at(3, 2), Square.at(4, 2), Square.at(5, 2), Square.at(6, 2), Square.at(7, 2)];
+        const currentLocation=board.findPiece(this);
+        let moves=[];
+
+        for (let i=0;i<8;i++) {
+            if (i !== currentLocation.col) {
+                moves.push(Square.at(currentLocation.row,i));
+            }
+            if (i !== currentLocation.row) {
+                moves.push(Square.at(i,currentLocation.col));
+            }
+        }
+
+    return moves;
     }
 }

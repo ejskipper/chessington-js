@@ -16,40 +16,31 @@ class Square {
         return `Row ${this.row}, Col ${this.col}`;
     }
 }
-
 const currentLocation=Square.at(2,3);
         let moves=[];
 
-        let myRow1 = currentLocation.row;
-        let myCol1 = currentLocation.col;
-        while (0<myRow1 && myRow1<7 && 0<myCol1 && myCol1<7) {
-            moves.push(Square.at(myRow1+1,myCol1+1))
-            myRow1++;
-            myCol1++;
-        }
-
-        let myRow2 = currentLocation.row;
-        let myCol2 = currentLocation.col;
-        while (0<myRow2 && myRow2<7 && 0<myCol2 && myCol2<7) {
-            moves.push(Square.at(myRow2+1,myCol2-1))
-            myRow2++;
-            myCol2--;
-        }
-
-        let myRow3 = currentLocation.row;
-        let myCol3 = currentLocation.col;
-        while (0<myRow3 && myRow3<7 && 0<myCol3 && myCol3<7) {
-            moves.push(Square.at(myRow3-1,myCol3+1))
-            myRow3--;
-            myCol3++;
-        }
-
-        let myRow4 = currentLocation.row;
-        let myCol4 = currentLocation.col;
-        while (0<myRow4 && myRow4<7 && 0<myCol4 && myCol4<7) {
-            moves.push(Square.at(myRow4-1,myCol4-1))
-            myRow4--;
-            myCol4--;
+        for (let i=0;i<8;i++) {
+            if (i !== currentLocation.col) {
+                moves.push(Square.at(currentLocation.row,i));
+            }
+            if (i !== currentLocation.row) {
+                moves.push(Square.at(i,currentLocation.col));
+            }
         }
 
         console.log(moves);
+
+        [ Square { row: 2, col: 0 },
+            Square { row: 0, col: 3 },
+            Square { row: 2, col: 1 },
+            Square { row: 1, col: 3 },
+            Square { row: 2, col: 2 },
+            Square { row: 3, col: 3 },
+            Square { row: 2, col: 4 },
+            Square { row: 4, col: 3 },
+            Square { row: 2, col: 5 },
+            Square { row: 5, col: 3 },
+            Square { row: 2, col: 6 },
+            Square { row: 6, col: 3 },
+            Square { row: 2, col: 7 },
+            Square { row: 7, col: 3 } ]
