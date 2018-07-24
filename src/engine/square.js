@@ -16,3 +16,5 @@ export default class Square {
         return `Row ${this.row}, Col ${this.col}`;
     }
 }
+
+console.log(Square.at(1,3));
