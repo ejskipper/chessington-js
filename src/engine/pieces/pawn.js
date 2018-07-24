@@ -1,11 +1,12 @@
 import Piece from './piece';
+import Square from '../square';
 
 export default class Pawn extends Piece {
     constructor(player) {
         super(player);
     }
-
+    
     getAvailableMoves(board) {
-        return new Array(0);
+        return [Square.at(1,0),Square.at(6,7)];
     }
 }
