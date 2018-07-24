@@ -1,4 +1,5 @@
 import Piece from './piece';
+import Square from '../square';
 
 export default class Knight extends Piece {
     constructor(player) {
@@ -6,6 +7,7 @@ export default class Knight extends Piece {
     }
 
     getAvailableMoves(board) {
-        return new Array(0);
+        return [Square.at(2, 5), Square.at(2, 3), Square.at(3, 6), Square.at(3, 2),
+            Square.at(5, 6), Square.at(5, 2), Square.at(6, 5), Square.at(6, 3)];
     }
 }
