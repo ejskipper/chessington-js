@@ -1,5 +1,6 @@
 import Piece from './piece';
 import Square from '../square';
+const filterOffboardMoves = require('./filterOffboardMoves');
 
 export default class Rook extends Piece {
     constructor(player) {
@@ -8,12 +9,15 @@ export default class Rook extends Piece {
 
     getAvailableMoves(board) {
         const currentLocation=board.findPiece(this);
+        const activePlayer = this.player;
         let moves=[];
+        let piecesInPath=[];
 
         let myRow1 = currentLocation.row;
         do {
             const blockingPiece = board.getPiece(Square.at(myRow1+1,currentLocation.col));
             if (blockingPiece) {
+                piecesInPath.push(board.getPiece(Square.at(myRow1+1,currentLocation.col)));
                 break;
             }
             moves.push(Square.at(myRow1+1,currentLocation.col));
@@ -24,6 +28,7 @@ export default class Rook extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(myRow2-1,currentLocation.col));
             if (blockingPiece) {
+                piecesInPath.push(board.getPiece(Square.at(myRow2-1,currentLocation.col)));
                 break;
             }
             moves.push(Square.at(myRow2-1,currentLocation.col));
@@ -34,6 +39,7 @@ export default class Rook extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(currentLocation.row,myCol1+1));
             if (blockingPiece) {
+                piecesInPath.push(board.getPiece(Square.at(currentLocation.row,myCol1+1)));
                 break;
             }
             moves.push(Square.at(currentLocation.row,myCol1+1));
@@ -44,13 +50,27 @@ export default class Rook extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(currentLocation.row,myCol2-1));
             if (blockingPiece) {
+                piecesInPath.push(board.getPiece(Square.at(currentLocation.row,myCol2-1)));
                 break;
             }
             moves.push(Square.at(currentLocation.row,myCol2-1));
             myCol2--;
         } while (0<myCol2 && myCol2<7);
 
-        const onBoardMoves = moves.filter(square => square.row > -1 && square.row < 8 && square.col > -1 && square.col < 8);
+        
+        piecesInPath.forEach(piece => {
+            if (piece.player === activePlayer || piece.constructor.name === 'King') {
+                const index = piecesInPath.indexOf(piece);
+            piecesInPath.splice(index,1);
+            }
+        });
+        
+        let takeableSquares = [];
+        piecesInPath.forEach(piece => {
+            takeableSquares.push(board.findPiece(piece));
+        });
+
+        const onBoardMoves = takeableSquares.concat(filterOffboardMoves(moves));
         return onBoardMoves;
     }
 }

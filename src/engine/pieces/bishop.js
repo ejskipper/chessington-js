@@ -1,5 +1,6 @@
 import Piece from './piece';
 import Square from '../square';
+const filterOffboardMoves = require('./filterOffboardMoves');
 
 export default class Bishop extends Piece {
     constructor(player) {
@@ -58,7 +59,7 @@ export default class Bishop extends Piece {
             myCol4--;
         } while (0<myRow4 && myRow4<7 && 0<myCol4 && myCol4<7);
 
-        const onBoardMoves = moves.filter(square => square.row > -1 && square.row < 8 && square.col > -1 && square.col < 8);
+        const onBoardMoves = filterOffboardMoves(moves);
         return onBoardMoves;
     }
 }

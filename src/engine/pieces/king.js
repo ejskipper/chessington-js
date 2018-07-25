@@ -1,5 +1,6 @@
 import Piece from './piece';
 import Square from '../square';
+const filterOffboardMoves = require('./filterOffboardMoves');
 
 export default class King extends Piece {
     constructor(player) {
@@ -19,15 +20,7 @@ export default class King extends Piece {
         moves.push(Square.at(currentLocation.row+1, currentLocation.col));
         moves.push(Square.at(currentLocation.row+1, currentLocation.col+1));
 
-        // moves.forEach(square => {
-        //     if (square.col < 0 || square.col > 8 || square.row < 0 || square.row > 8) {
-        //         const index = moves.indexOf(square);
-        //         moves.splice(index,1);
-        //     }
-        // });
-
-        const onBoardMoves = moves.filter(square => square.row > -1 && square.row < 8 && square.col > -1 && square.col < 8);
-
+        const onBoardMoves = filterOffboardMoves(moves);
         return onBoardMoves;
     }
 }

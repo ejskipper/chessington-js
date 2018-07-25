@@ -1,7 +1,7 @@
 import Piece from './piece';
 import Square from '../square';
-import Board from '../board';
 import Player from '../player';
+const filterOffboardMoves = require('./filterOffboardMoves');
 
 export default class Pawn extends Piece {
     constructor(player) {
@@ -19,22 +19,18 @@ export default class Pawn extends Piece {
             if (currentLocation.row === 1) {
                 moves.push(Square.at(currentLocation.row+2,currentLocation.col));
             }
-
-            
-
             break;
 
             case Player.BLACK:
                 moves.push(Square.at(currentLocation.row-1,currentLocation.col));
-            
-
+        
             if (currentLocation.row === 6) {
                 moves.push(Square.at(currentLocation.row-2,currentLocation.col));
             }
             break;
         }
 
-        let onBoardMoves = moves.filter(square => square.row > -1 && square.row < 8 && square.col > -1 && square.col < 8);
+        let onBoardMoves = filterOffboardMoves(moves);
         
         onBoardMoves.forEach(square => {
             const blockingPiece = board.getPiece(square)
@@ -46,8 +42,6 @@ export default class Pawn extends Piece {
                 }
             }
         });
-
-       
         return onBoardMoves;
     }
 }
