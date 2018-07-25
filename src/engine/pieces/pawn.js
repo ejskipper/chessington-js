@@ -34,20 +34,21 @@ export default class Pawn extends Piece {
             break;
         }
 
+        let onBoardMoves = moves.filter(square => square.row > -1 && square.row < 8 && square.col > -1 && square.col < 8);
         
-        
-        moves.forEach(square => {
+        onBoardMoves.forEach(square => {
             const blockingPiece = board.getPiece(square)
             if (blockingPiece) {
-                const index = moves.indexOf(square);
-                moves.splice(index,1);
+                const index = onBoardMoves.indexOf(square);
+                onBoardMoves.splice(index,1);
                 if (square.row === currentLocation.row + 1 || square.row === currentLocation.row - 1) {
-                    moves = [];
+                    onBoardMoves = [];
                 }
             }
-            
-        })  
-        return moves;
+        });
+
+       
+        return onBoardMoves;
     }
 }
     

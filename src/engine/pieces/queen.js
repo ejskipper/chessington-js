@@ -103,14 +103,7 @@ export default class Queen extends Piece {
             } while (0<myRow4 && myRow4<7 && 0<myCol4 && myCol4<7);
         }
 
-        moves.forEach(square => {
-            if (square.col < 0 || square.col > 8 || square.row < 0 || square.row > 8) {
-                const index = moves.indexOf(square);
-                moves.splice(index,1);
-            }
-            
-        });
-
-        return moves;
+        const onBoardMoves = moves.filter(square => square.row > -1 && square.row < 8 && square.col > -1 && square.col < 8);
+        return onBoardMoves;
     }
 }

@@ -18,15 +18,8 @@ export default class Knight extends Piece {
         moves.push(Square.at(currentLocation.row+1,currentLocation.col-2));
         moves.push(Square.at(currentLocation.row-1,currentLocation.col+2));
         moves.push(Square.at(currentLocation.row-1,currentLocation.col-2));
-        
-        moves.forEach(square => {
-            if (square.col < 0 || square.col > 8 || square.row < 0 || square.row > 8) {
-                const index = moves.indexOf(square);
-                moves.splice(index,1);
-            }
-            
-        });
 
-        return moves;
+        const onBoardMoves = moves.filter(square => square.row > -1 && square.row < 8 && square.col > -1 && square.col < 8);
+        return onBoardMoves;
     }
 }
