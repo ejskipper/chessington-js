@@ -10,12 +10,15 @@ export default class Bishop extends Piece {
     getAvailableMoves(board) {
         const currentLocation=board.findPiece(this);
         let moves=[];
+        const activePlayer = this.player;
+        let piecesInPath=[];
 
         let myRow1 = currentLocation.row;
         let myCol1 = currentLocation.col;
         do {
             const blockingPiece = board.getPiece(Square.at(myRow1+1,myCol1+1));
             if (blockingPiece) {
+                piecesInPath.push(blockingPiece);
                 break;
             }
             moves.push(Square.at(myRow1+1,myCol1+1));
@@ -28,6 +31,7 @@ export default class Bishop extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(myRow2+1,myCol2-1));
             if (blockingPiece) {
+                piecesInPath.push(blockingPiece);
                 break;
             }
             moves.push(Square.at(myRow2+1,myCol2-1));
@@ -40,6 +44,7 @@ export default class Bishop extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(myRow3-1,myCol3+1));
             if (blockingPiece) {
+                piecesInPath.push(blockingPiece);
                 break;
             }
             moves.push(Square.at(myRow3-1,myCol3+1));
@@ -52,6 +57,7 @@ export default class Bishop extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(myRow4-1,myCol4-1));
             if (blockingPiece) {
+                piecesInPath.push(blockingPiece);
                 break;
             }
             moves.push(Square.at(myRow4-1,myCol4-1));
@@ -59,7 +65,19 @@ export default class Bishop extends Piece {
             myCol4--;
         } while (0<myRow4 && myRow4<7 && 0<myCol4 && myCol4<7);
 
-        const onBoardMoves = filterOffboardMoves(moves);
+        piecesInPath.forEach(piece => {
+            if (piece.player === activePlayer || piece.constructor.name === 'King') {
+                const index = piecesInPath.indexOf(piece);
+            piecesInPath.splice(index,1);
+            }
+        });
+        
+        let takeableSquares = [];
+        piecesInPath.forEach(piece => {
+            takeableSquares.push(board.findPiece(piece));
+        });
+
+        const onBoardMoves = takeableSquares.concat(filterOffboardMoves(moves));
         return onBoardMoves;
     }
 }

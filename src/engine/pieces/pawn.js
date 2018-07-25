@@ -11,6 +11,8 @@ export default class Pawn extends Piece {
     getAvailableMoves(board) {
         const currentLocation=board.findPiece(this);
         let moves=[];
+        const activePlayer = this.player;
+        let piecesInPath=[];
 
         switch (this.player) {
             case Player.WHITE:

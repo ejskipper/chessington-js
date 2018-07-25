@@ -9,8 +9,8 @@ export default class Rook extends Piece {
 
     getAvailableMoves(board) {
         const currentLocation=board.findPiece(this);
-        const activePlayer = this.player;
         let moves=[];
+        const activePlayer = this.player;
         let piecesInPath=[];
 
         let myRow1 = currentLocation.row;
@@ -28,7 +28,7 @@ export default class Rook extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(myRow2-1,currentLocation.col));
             if (blockingPiece) {
-                piecesInPath.push(board.getPiece(Square.at(myRow2-1,currentLocation.col)));
+                piecesInPath.push(blockingPiece);
                 break;
             }
             moves.push(Square.at(myRow2-1,currentLocation.col));
@@ -39,7 +39,7 @@ export default class Rook extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(currentLocation.row,myCol1+1));
             if (blockingPiece) {
-                piecesInPath.push(board.getPiece(Square.at(currentLocation.row,myCol1+1)));
+                piecesInPath.push(blockingPiece);
                 break;
             }
             moves.push(Square.at(currentLocation.row,myCol1+1));
@@ -50,7 +50,7 @@ export default class Rook extends Piece {
         do {
             const blockingPiece = board.getPiece(Square.at(currentLocation.row,myCol2-1));
             if (blockingPiece) {
-                piecesInPath.push(board.getPiece(Square.at(currentLocation.row,myCol2-1)));
+                piecesInPath.push(blockingPiece);
                 break;
             }
             moves.push(Square.at(currentLocation.row,myCol2-1));
