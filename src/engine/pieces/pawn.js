@@ -1,6 +1,7 @@
 import Piece from './piece';
 import Square from '../square';
 import Board from '../board';
+import Player from '../player';
 
 export default class Pawn extends Piece {
     constructor(player) {
@@ -11,43 +12,42 @@ export default class Pawn extends Piece {
         const currentLocation=board.findPiece(this);
         let moves=[];
 
-        // // if (this.player==='white') {
-        // //     moves.push(Square.at(currentLocation.row+1,currentLocation.col));
-        // // }
-        // if (currentLocation.row === 1) {
-        //     moves.push(Square.at(currentLocation.row+2,currentLocation.col));
-        // }
+        switch (this.player) {
+            case Player.WHITE:
+                moves.push(Square.at(currentLocation.row+1,currentLocation.col));
+            
+            if (currentLocation.row === 1) {
+                moves.push(Square.at(currentLocation.row+2,currentLocation.col));
+            }
 
-        // // if (this.player===Symbol(black)) {
-        // //     moves.push(Square.at(currentLocation.row-1,currentLocation.col));
-        // // }
-        // if (currentLocation.row === 6) {
-        //     moves.push(Square.at(currentLocation.row-2,currentLocation.col));
-        // }
+            
 
-        // return moves;
-    
+            break;
 
-        const location = board.findPiece(this);
-        const stringLocation = `${location.row},${location.col}`
+            case Player.BLACK:
+                moves.push(Square.at(currentLocation.row-1,currentLocation.col));
+            
 
-        switch (stringLocation) {
-        case '2,0': 
-            return [Square.at(3,0)];
-        break;
-        case '1,7':
-            return [Square.at(2,7),Square.at(3,7)];
-        break; 
-        case '5,0':
-            return [Square.at(4,0)];
-        break;
-        case '6,7':
-            return    [Square.at(4,7),Square.at(5,7)];
-        break;
-        case '6,3':
-        return [];
-        break;
+            if (currentLocation.row === 6) {
+                moves.push(Square.at(currentLocation.row-2,currentLocation.col));
+            }
+            break;
         }
 
+        
+        
+        moves.forEach(square => {
+            const blockingPiece = board.getPiece(square)
+            if (blockingPiece) {
+                const index = moves.indexOf(square);
+                moves.splice(index,1);
+                if (square.row === currentLocation.row + 1 || square.row === currentLocation.row - 1) {
+                    moves = [];
+                }
+            }
+            
+        })  
+        return moves;
     }
 }
+    
