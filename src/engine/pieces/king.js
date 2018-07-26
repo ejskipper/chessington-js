@@ -1,6 +1,6 @@
 import Piece from './piece';
 import Square from '../square';
-const filterOffboardMoves = require('./filterOffboardMoves');
+const functions = require('./functions');
 
 export default class King extends Piece {
     constructor(player) {
@@ -22,7 +22,7 @@ export default class King extends Piece {
         moves.push(Square.at(currentLocation.row+1, currentLocation.col));
         moves.push(Square.at(currentLocation.row+1, currentLocation.col+1));
 
-        const onBoardMoves = filterOffboardMoves(moves);
+        const onBoardMoves = functions.filterOffboardMoves(moves);
         return onBoardMoves;
     }
 }

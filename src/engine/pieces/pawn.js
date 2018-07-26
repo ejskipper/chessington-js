@@ -1,7 +1,7 @@
 import Piece from './piece';
 import Square from '../square';
 import Player from '../player';
-const filterOffboardMoves = require('./filterOffboardMoves');
+const functions = require('./functions');
 
 export default class Pawn extends Piece {
     constructor(player) {
@@ -32,7 +32,7 @@ export default class Pawn extends Piece {
             break;
         }
 
-        let onBoardMoves = filterOffboardMoves(moves);
+        let onBoardMoves = functions.filterOffboardMoves(moves);
         
         onBoardMoves.forEach(square => {
             const blockingPiece = board.getPiece(square)

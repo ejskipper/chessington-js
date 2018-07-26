@@ -1,6 +1,6 @@
 import Piece from './piece';
 import Square from '../square';
-const filterOffboardMoves = require('./filterOffboardMoves');
+const functions = require('./functions');
 
 export default class Bishop extends Piece {
     constructor(player) {
@@ -65,19 +65,14 @@ export default class Bishop extends Piece {
             myCol4--;
         } while (0<myRow4 && myRow4<7 && 0<myCol4 && myCol4<7);
 
-        piecesInPath.forEach(piece => {
-            if (piece.player === activePlayer || piece.constructor.name === 'King') {
-                const index = piecesInPath.indexOf(piece);
-            piecesInPath.splice(index,1);
-            }
-        });
+        functions.removeKingFriendly(piecesInPath,activePlayer);
         
         let takeableSquares = [];
         piecesInPath.forEach(piece => {
             takeableSquares.push(board.findPiece(piece));
         });
 
-        const onBoardMoves = takeableSquares.concat(filterOffboardMoves(moves));
+        const onBoardMoves = takeableSquares.concat(functions.filterOffboardMoves(moves));
         return onBoardMoves;
     }
 }
